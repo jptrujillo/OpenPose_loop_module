@@ -14658,7 +14658,7 @@ While the above example uses bash, we can also do the same using Python.
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
@@ -14666,7 +14666,8 @@ While the above example uses bash, we can also do the same using Python.
 <span class="kn">import</span> <span class="nn">glob</span>
 
 <span class="c1">#  openpose demo.exe location</span>
-<span class="n">openpose_demo_loc</span> <span class="o">=</span> <span class="s1">'D:/data/AutumnSchool2023/OpenPose/bin/OpenPoseDemo.exe'</span> <span class="c1">#'D:/OpenPose1.7.0/openpose/bin/OpenPoseDemo.exe'</span>
+<span class="n">working_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+<span class="n">openpose_demo_loc</span> <span class="o">=</span> <span class="n">working_dir</span> <span class="o">+</span> <span class="s1">'/bin/OpenPoseDemo.exe'</span> 
 
 <span class="c1"># get files to process</span>
 <span class="n">file_dir</span> <span class="o">=</span> <span class="s2">"videos_to_analyze/analyze_folder/"</span>
@@ -14724,7 +14725,7 @@ While the above example uses bash, we can also do the same using Python.
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>short_vid.avi
-sending to command prompt:   D:/data/AutumnSchool2023/OpenPose/bin/OpenPoseDemo.exe --video videos_to_analyze/analyze_folder/short_vid.avi --write_json output/short_vid --write_video output/short_vid/short_vid_video_track.avi --net_resolution  "320x176"
+sending to command prompt:   D:\data\AutumnSchool2023\OpenPose/bin/OpenPoseDemo.exe --video videos_to_analyze/analyze_folder/short_vid.avi --write_json output/short_vid --write_video output/short_vid/short_vid_video_track.avi --net_resolution  "320x176"
 </pre>
 </div>
 </div>
