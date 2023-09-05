@@ -14544,7 +14544,6 @@ OpenPose provides a powerful form of video based motion tracking, and is freely 
 <p></p><h3> Prerequisites and Set-Up:</h3>
 Before being able to run this OpenPose batch script, you will need to install: <br>
 <ul>
-<<<<<<< HEAD
 <li>Git Bash (or a similar bash-capable application) <a href="https://gitforwindows.org/">https://gitforwindows.org/</a> <br></li>
 <li>OpenPose <a href="https://github.com/CMU-Perceptual-Computing-Lab/openpose/releases">https://github.com/CMU-Perceptual-Computing-Lab/openpose/releases</a> <br></li>
 <li>Note that if you want to use the cpu-only version, you need to download the cpu release, rather than the gpu release
@@ -14552,12 +14551,6 @@ Before being able to run this OpenPose batch script, you will need to install: <
 -- After downloading and unzipping the OpenPose files, ensure that the unzipped folder, and its contents, is in the same directory as the OpenPose batch .sh file. The directory with OpenPose_loop.sh should also have a <i>bin</i>, amongst others (i.e., bin should not be within another folder) <br>
 -- note that this repository contains a <i>models</i> folder. Don't replace this with the models folder from the OpenPose download (this is due to issues with downloading the model files using OpenPose's batch file)<br></li>
 <li>Create a new directory in your repo folder called <i>output</i>. This folder is expected by the script.</li>
-=======
-<li>Git Bash (or a similar bash-capable application) <a href="https://gitforwindows.org/">https://gitforwindows.org/</a></li>
-<li>OpenPose <a href="https://github.com/CMU-Perceptual-Computing-Lab/openpose/releases">https://github.com/CMU-Perceptual-Computing-Lab/openpose/releases</a>
--- After downloading and unzipping the OpenPose files, make sure to go into the unzipped folder, then <i>models</i> and run <i>getModels.bat</i>.
--- also ensure that the unzipped folder, and its contents, is in the same directory as the OpenPose batch .sh file. The directory with OpenPose_loop.sh should also have a <i>bin</i>, amongst others (i.e., bin should not be within another folder)</li>
->>>>>>> 0f42dc75b7faa73428a3f6ee2fafecb803c2c4c0
 </ul>
 
 </div>
@@ -14647,6 +14640,91 @@ Configuring OpenPose...
 Starting thread(s)...
 Auto-detecting all available GPUs... Detected 1 GPU(s), using 1 of them starting at GPU 0.
 OpenPose demo successfully finished. Total time: 24.856024 seconds.
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p></p><h3>Batching Using Python's Subprocess</h3>
+While the above example uses bash, we can also do the same using Python.
+
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+
+<span class="c1">#  openpose demo.exe location</span>
+<span class="n">openpose_demo_loc</span> <span class="o">=</span> <span class="s1">'D:/data/AutumnSchool2023/OpenPose/bin/OpenPoseDemo.exe'</span> <span class="c1">#'D:/OpenPose1.7.0/openpose/bin/OpenPoseDemo.exe'</span>
+
+<span class="c1"># get files to process</span>
+<span class="n">file_dir</span> <span class="o">=</span> <span class="s2">"videos_to_analyze/analyze_folder/"</span>
+<span class="n">file_list</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">file_dir</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">runcommand</span><span class="p">(</span><span class="n">command</span><span class="p">):</span>
+        <span class="c1"># Run the command using subprocess for OPENPOSE TRACKING</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CalledProcessError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Command execution failed with error code </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">returncode</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"The OpenPoseDemo.exe executable was not found."</span><span class="p">)</span>
+
+
+<span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">file_list</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+    <span class="n">filename</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">" "</span><span class="p">,</span> <span class="s2">"_"</span><span class="p">)</span>
+    <span class="c1">#identify all mp4 files in folder</span>
+    
+    <span class="c1"># create output directory</span>
+    <span class="n">output_dir</span> <span class="o">=</span> <span class="s2">"output/"</span> <span class="o">+</span> <span class="n">filename</span><span class="p">[:</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">outputdir</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">outputdir</span><span class="p">)</span>
+
+    <span class="c1"># create the command </span>
+    <span class="n">openposelocation</span> <span class="o">=</span> <span class="s1">' '</span> <span class="o">+</span> <span class="n">openpose_demo_loc</span> <span class="o">+</span> <span class="s1">' '</span>
+    <span class="n">video</span> <span class="o">=</span> <span class="s1">'--video '</span> <span class="o">+</span> <span class="n">file_dir</span> <span class="o">+</span> <span class="n">filename</span> <span class="o">+</span> <span class="s1">' '</span>
+    <span class="n">todo</span> <span class="o">=</span> <span class="s1">'--write_json '</span> <span class="o">+</span> <span class="n">output_dir</span> <span class="o">+</span> <span class="s1">' '</span>
+    <span class="n">videoadd</span> <span class="o">=</span> <span class="s1">'--write_video '</span>
+    <span class="n">videopath</span> <span class="o">=</span>  <span class="n">output_dir</span> <span class="o">+</span> <span class="s1">'/'</span> <span class="o">+</span> <span class="n">filename</span><span class="p">[:</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span> <span class="o">+</span> <span class="s1">'_video_track.avi '</span>
+    <span class="n">res_val</span> <span class="o">=</span> <span class="s1">'"320x176"'</span>
+    <span class="n">resolution</span> <span class="o">=</span>  <span class="sa">f</span><span class="s2">"--net_resolution  </span><span class="si">{</span><span class="n">res_val</span><span class="si">}</span><span class="s2">"</span>
+    <span class="c1">#command = [openposelocation, video, todo, videoadd, videopath, '--net_resolution "320x126"'] </span>
+    <span class="n">command</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">' '</span><span class="o">+</span><span class="n">openposelocation</span><span class="o">+</span><span class="n">video</span><span class="o">+</span><span class="n">todo</span><span class="o">+</span><span class="n">videoadd</span><span class="o">+</span><span class="n">videopath</span><span class="o">+</span><span class="n">resolution</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'sending to command prompt: '</span> <span class="o">+</span> <span class="n">command</span><span class="p">)</span>
+    <span class="n">runcommand</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>short_vid.avi
+sending to command prompt:   D:/data/AutumnSchool2023/OpenPose/bin/OpenPoseDemo.exe --video videos_to_analyze/analyze_folder/short_vid.avi --write_json output/short_vid --write_video output/short_vid/short_vid_video_track.avi --net_resolution  "320x176"
 </pre>
 </div>
 </div>
